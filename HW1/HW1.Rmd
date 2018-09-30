@@ -1,0 +1,172 @@
+---
+title: "Homework1"
+author: "claire"
+date: "2018年9月14日"
+output: html_document
+---
+
+## To do 3-1
+##### Compute the difference between 2014 and the year you started at this university and divide this by the difference between 2014 and the year you were born. Multiply this with 100 to get the percentage of your life you have spent at this university. Use brackets if you need them.
+
+
+```{r}
+a<- ((2018-2017)/(2018-1998))*100
+a
+```
+
+## To do 3-2
+#####Repeat the previous ToDo, but with several steps in between. You can give the variables any name you want, but the name has to start with a letter.
+
+```{r}
+a
+```
+
+##To do 4-1
+#####Compute the sum of 4, 5, 8 and 11 by first combining them into a vector and then using the function sum.
+```{r}
+vec<-c(4,5,8,11)
+sum(vec)
+```
+
+##To do 5-1
+#####Plot 100 normal random numbers.
+
+```{r}
+x=rnorm(100)
+plot(x)
+```
+
+
+##To do 5-2
+#####Find help for the sqrt function.
+```{r}
+help(sqrt)
+
+```
+##### sqrt的用法是計算某數的平方根，寫作(x)
+
+## To do 5-3
+##### Make  a file called firstscript.R containing Rcodethat generates 100 random numbers and plots them, and run this script several times.
+```{r}
+source("firstscript.R")
+```
+
+## To do 6-1
+##### Put the numbers 31 to 60 in a vector named P and in a matrix with 6 rows and 5 columns named Q. Tip: use the function seq. Look at the different ways scalars, vectors and matrices are denoted in the workspace window.
+```{r}
+P<-c(31:60)
+Q<-matrix(data=P,ncol=5)
+P
+Q
+```
+
+## To do 7-1
+#####Make a script file which constructs three random normal vectors of length 100. Call these vectors x1, x2 and x3. Make a data frame called t with three columns (called a, b and c) containing respectively x1, x1+x2 and x1+x2+x3. Call plot(t) for this data frame. Can you understand the results? Rerun this script a few times.
+```{r}
+source("frame.R")
+
+```
+
+## To do 7-2
+#####Add these lines to the script file of the previous section. Try to find out, either by experimenting or by using the help, what the meaning is of rgb, the last argument of rgb, lwd, pch, cex
+```{r}
+plot(t$a, type="l", ylim=range(t),lwd=3, col=rgb(1,0,0,0.3))
+lines(t$b, type="s", lwd=2,col=rgb(0.3,0.4,0.3,0.9))
+points(t$c, pch=20, cex=4, col=rgb(0,0,1,0.3))
+
+```
+
+### rgb()是調整顏色的一個function，rgb(red, green, blue, alpha)
+### lwd是控制線段寬度
+### pch是控制點的樣式
+### cex是控制點的大小
+
+## To do 8-1
+##### Make a file called tst1.txt in Notepad from the example in Figure 4 and store it in your working directory. Write a script to read it, to multiply the column called g by 5 and to store it as tst2.txt.
+```{r}
+a<-c(1,2,4,8,16,32)
+g<-c(2,4,8,16,32,64)
+x<-c(3,6,12,24,48,96)
+A<-data.frame(a,g,x)
+A
+write.table(A,file="tst1.txt",row.names=FALSE)
+```
+```{R}
+B<-read.table(file="tst1.txt",header=TRUE)
+g<-g*5
+B<-data.frame(a,g,x)
+write.table(B,file="tst2.txt",row.names=FALSE)
+C<-read.table(file="tst2.txt",header=TRUE)
+C
+```
+
+## To do 8-2
+##### Compute the mean of the square root of a vector of 100 random numbers. What happens?
+```{r}
+random<-sqrt(rnorm(100))
+random
+```
+```{r}
+mean(random)
+```
+
+##### 某些數值開平方不存在
+##### 把NaN值去掉
+
+```{r}
+mean(random,na.rm = TRUE)
+```
+
+
+## To do 9-1
+##### Make a graph with on the x-axis: today, Sinterklaas 2017 and your next birthday and on the y-axis the number of presents you expect on each of these days. Tip: make two vectors first.
+```{r}
+library(lubridate)
+date<-c(20180916,20171205,20181218)
+date<-ymd(date)
+pre<-c(0,1,1)
+plot(x=date,y=pre)
+```
+
+## To do 10-1
+##### Make a vector from 1 to 100. Make a for-loop which runs through the whole vector. Multiply the elements which are smaller than 5 and larger than 90 with 10 and the other elements with 0.1.
+```{r}
+number<-c(1:100)
+for (i in number)
+{
+  if (number[i]<5|number[i]>90){
+    number[i]<-number[i]*10
+  }
+  else{
+    number[i]<-number[i]*0.1
+  }
+}
+number
+```
+
+## To do 10-2
+##### Write a function for the previous ToDo, so that you can feed it any vector you like (as argument). Use a for-loop in the function to do the computation with each element. Use the standard R function length in the specification of the counter.
+```{r}
+func<-function(vect){
+
+for (i in 1:length(vect))
+{
+  if (vect[i]<5|vect[i]>90){
+    vect[i]<-vect[i]*10
+  }
+  else{
+    vect[i]<-vect[i]*0.1
+  }
+} 
+  return(vect)
+}
+
+Q14<-func(c(1:67))
+Q14
+```
+
+
+
+
+
+

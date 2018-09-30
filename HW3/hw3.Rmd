@@ -1,0 +1,6 @@
+---
+title: "Lab3"
+author: "claire"
+date: "2018年9月28日"
+output: html_document
+---

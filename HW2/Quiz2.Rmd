@@ -1,0 +1,24 @@
+---
+title: "Quiz2"
+author: "claire"
+date: "2018年9月21日"
+output: html_document
+---
+## To do 1
+```{r}
+smaller_head_circu<-56-2-2
+smaller_head_circu
+```
+## To do 2
+```{r}
+larger_head_circu<-56+2+2
+larger_head_circu
+```
+## To do 3
+```{r}
+larger_head_circu2<-56+2
+larger_head_circu2
+```
+
+
+
