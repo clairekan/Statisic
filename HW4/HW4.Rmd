@@ -1,0 +1,213 @@
+---
+title: "HW4"
+author: "claire"
+date: "2018年10月5日"
+output: html_document
+---
+#8.18
+##a.
+###RR,RL,LR,LL
+
+##b.
+###RR: 0.4666667
+```{r}
+(7/10)*(6/9)
+```
+###RL:0.2333333
+```{r}
+(7/10)*(3/9)
+```
+###LR:0.2333333
+```{r}
+(3/10)*(7/9)
+```
+###LL:0.06666667
+```{r}
+(3/10)*(2/9)
+```
+
+##c.
+```{r}
+ra<-c(0.4666667,0.2333333,0.2333333, 0.06666667)
+name<-c("RR","RL","LR","LL")
+hands<-data.frame(ra)
+row.names(hands)<-name
+hands
+```
+##d.
+```{r}
+library(ggplot2)
+num<-c("RR","RL","LR","LL")
+ra<-c(0.4666667,0.2333333,0.2333333, 0.06666667)
+q18<-data.frame(num,ra)
+ggplot(q18,aes(x=num,y=ra))+geom_histogram(stat = 'identity')+ylab("Probability")
+
+```
+
+#8.40
+##a.
+###1/5*20+4/5*15=16
+
+##b.
+###No, since it is expected value but not the true value. 
+
+#8.50
+##a.
+###0.2460938
+```{r}
+dbinom(5, size = 10, prob = 0.5)
+```
+
+##b.
+###0.1171875
+```{r}
+(10*9*8/(2*3))*0.5^10
+```
+
+##c.
+```{r}
+1-pbinom(6, size = 10, prob = 0.5)
+```
+
+#8.72
+##a.
+```{r}
+pnorm(500, mean = 500, sd = 100)
+```
+
+##b.
+```{r}
+pnorm(650, mean = 500, sd = 100)
+```
+
+##c.
+```{r}
+1-pnorm(699.9, mean = 500, sd = 100)
+```
+
+##d.
+```{r}
+pnorm(700, mean = 500, sd = 100)-pnorm(499.9, mean = 500, sd = 100)
+```
+
+#8.82
+##a.
+```{r}
+mean<-100*1/2
+mean
+sd<-(100*(1/2)*(1/2))^(1/2)
+sd
+```
+### mean=50
+### sd=5
+
+##b.
+```{r}
+1-pnorm(59.9, mean = 50, sd = 5)
+```
+###0.02844397
+
+##c.
+```{r}
+1-pnorm(59.5, mean = 50, sd = 5) 
+```
+###0.02871656
+
+##d.
+```{r}
+1-pbinom(59.9,100,0.5)
+```
+
+##e.
+c的答案是最準確的，a的答案是最不準確的
+
+#8.90
+##a.normal distribution
+##b.mean(X-Y)=mean(X1)-mean(X2)=0
+##c.(var(X)^2+var(Y)^2)^(1/2)=3.959798
+```{r}
+(2.8^2+2.8^2)^(1/2)
+```
+
+##d.
+###0.2243409
+```{r}
+1-pnorm(3, mean = 0, sd =3.959798 ) 
+```
+
+##e.
+###0.4486819
+```{r}
+(1-pnorm(3, mean = 0, sd =3.959798 ))*2
+```
+
+###某都市有10萬人口，某疾病每人每年感染機率為p = 0.01，請繪製該市每年感染人數頻率分布圖。
+```{r}
+simp.event<-c()
+for (i in 1:100000) {
+  event <- dbinom(i, size = 100000, prob = 0.01)
+  simp.event[i] = event
+}
+people<-c(1:100000)
+virus<-data.frame(people,simp.event)
+hist(simp.event, prob = T, breaks = 20)
+ggplot(virus,aes(x=people,y=simp.event))+geom_line()+scale_x_log10()
+```
+
+###市長承諾，該年感染超過1050就下台。請問4年內市長下台機率。
+```{r}
+1-pbinom(1050, size = 100000, prob = 0.01)^4
+```
+
+###電腦模擬針對100年發生最大疫情規模的年度，估計該年度感染人數。
+```{r}
+Virus<-function(year){
+Virus.event = function(n, p) {
+  simp.event = c()
+  pp = 100*p
+  
+  for (i in 1:n) {
+    samp = sample(1:100, 1, replace = T)
+    
+    # an event with probability p
+    if (samp <= pp) {
+      event = 1
+    } else {
+      event = 0
+    }
+    
+    simp.event[i] = event
+  }
+  
+  x = sum(simp.event)
+  #x = length(simp.event[simp.event==1]) #another way to write
+  return(x)
+}
+
+
+
+
+virus.set = c()
+for (i in 1:year) {
+  virus.set[i] = Virus.event(n = 100000, p = 0.01)
+}
+return(max(virus.set))
+}
+Virus(100)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
