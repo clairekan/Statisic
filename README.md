@@ -14,4 +14,4 @@
 [hw4](https://clairekan.github.io/Statisic/HW4/HW4.html)
 
 ## Mock Exam 1 -
-[Mock Exam 1](https://clairekan.github.io/Statisic/Mock_Exam_1/Mock_Exam_1.html)
+[Mock Exam 1](https://clairekan.github.io/Statisic/mockexam1/mockexam1.html)
