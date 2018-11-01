@@ -17,4 +17,4 @@
 [Mock Exam 1](https://clairekan.github.io/Statisic/mockexam1/mockexam1.html)
 
 ## HW5 -
-[hw4](https://clairekan.github.io/Statisic/HW5/HW5.html)
+[hw5](https://clairekan.github.io/Statisic/HW5/HW5.html)
