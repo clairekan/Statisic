@@ -1,0 +1,60 @@
+---
+title: "quiz5"
+author: "Claire"
+date: "2018年10月26日"
+output: html_document
+---
+
+#a
+```{r}
+n=500
+p=0.51
+sd=sqrt(p*(1-p)/n)
+curve(dnorm(x,mean=0.51,sd=sd),xlim=c(0.4,0.6))
+```
+
+#b
+```{r}
+0.51-0.48
+```
+
+#c
+```{r}
+var1<-0.51*(1-0.51)/500
+var2<-0.48*(1-0.48)/500
+sdall<-sqrt(var1+var2)
+sdall
+```
+
+#d
+```{r}
+curve(dnorm(x,mean=0.51-0.48,sd=sdall),xlim=c(-0.1,0.15))
+```
+
+#e
+```{r}
+xx = seq(-0.1, 0.15, length.out = 100)
+yy = dnorm(xx, mean = 0.03, sd = sdall)
+
+plot(x = xx, y = yy, type = "l", main = "Normal distribution")
+axis(side = 1, at = seq(1,10,by=1))
+
+region.x = xx[xx>=-0.1 & xx<=0]
+region.y = yy[xx>=-0.1 & xx<=0]
+
+
+region.x2 = c(head(region.x,1), region.x, tail(region.x,1))
+region.y2 = c(0, region.y, 0)
+#head()
+#tail()
+
+polygon(region.x2, region.y2, col = "red")
+```
+
+#f
+```{r}
+z<-(0-0.03)/sdall
+z
+```
+#### -0.949158約等於-0.95，根據查表，約有0.1711的機率早上的投票率比下午的投票率低
+

@@ -1,0 +1,545 @@
+---
+title: "HW5"
+author: "Claire"
+date: "2018年10月31日"
+output: html_document
+---
+
+#9.42
+##a.
+#####Condition 1: 俱樂部裡長期下來固定有5%的會員使用服務，是fixed population
+#####Condition 2: 題目說是"長期"下來統計有5%的會員使用服務，就是所謂的numerous times
+#####Condition 3: n=400,p=0.05，np=20,n(1-p)=380，皆>10，是夠大的
+```{r}
+400*0.05
+400*0.95
+```
+##b.
+#####n=400,p=0.05
+
+##c.
+#####mean=p=0.05,
+#####Standard deviation =(p(1-p)/n)^(1/2)=0.01089725
+```{r}
+sqrt((0.05*(1-0.05))/400)
+```
+
+##d.
+#####0.07
+#####0.03322871
+```{r}
+28/400
+```
+```{r}
+mean<-0.05
+n<-400
+sd<-(mean*(1-mean)/n)^(1/2)
+1-pnorm(0.07,mean,sd)
+```
+
+#9.54
+##a.
+#a
+```{r}
+n=500
+p=0.51
+sd=sqrt(p*(1-p)/n)
+curve(dnorm(x,mean=0.51,sd=sd),xlim=c(0.4,0.6))
+```
+
+#b
+```{r}
+0.51-0.48
+```
+
+#c
+```{r}
+var1<-0.51*(1-0.51)/500
+var2<-0.48*(1-0.48)/500
+sdall<-sqrt(var1+var2)
+sdall
+```
+
+#d
+```{r}
+curve(dnorm(x,mean=0.51-0.48,sd=sdall),xlim=c(-0.1,0.15))
+```
+
+#e
+```{r}
+xx = seq(-0.1, 0.15, length.out = 100)
+yy = dnorm(xx, mean = 0.03, sd = sdall)
+
+plot(x = xx, y = yy, type = "l", main = "Normal distribution")
+axis(side = 1, at = seq(1,10,by=1))
+
+region.x = xx[xx>=-0.1 & xx<=0]
+region.y = yy[xx>=-0.1 & xx<=0]
+
+
+region.x2 = c(head(region.x,1), region.x, tail(region.x,1))
+region.y2 = c(0, region.y, 0)
+#head()
+#tail()
+
+polygon(region.x2, region.y2, col = "lightpink2")
+```
+
+#f
+```{r}
+z<-(0-0.03)/sdall
+z
+```
+#### -0.949158約等於-0.95，根據查表，約有0.1711的機率早上的投票率比下午的投票率低
+
+
+
+#9.68
+##a
+```{r}
+curve(dnorm(x,mean=80,sd=50),from=-70,to=230)
+abline(v = 0, col = "blue")
+```
+
+####skewed to right 是因為小於0的值根據題意是不可能的(藍線往左是不可能的值)，如果有outlier也是在右邊的異常高值，不會是小於0的異常低值
+
+##b.
+####雖然population不是bell-shaped，但是有超過30(365>30)的random sample 的條件，因此mean值的distribution 依然是normal distribution
+```{r}
+sd<-50/sqrt(365)
+car<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=car(mu=80,sigma=50,n=365)
+  simu.xbar[j]=x
+}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of xbar by sampling",xlab="xbar",col = "plum4")
+
+curve(dnorm(x,mean=80,sd),from=70,to=90,add=T)
+```
+
+##c.
+####一年中每天的總里程數相當於每個值*365，因此mean*365，sd*365的結果仍然會是常態分佈
+```{r}
+sd<-50/sqrt(365)
+car<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=car(mu=80*365,sigma=50*365,n=365)
+  simu.xbar[j]=x
+}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of xbar by sampling",xlab="xbar",col = "palevioletred3")
+
+curve(dnorm(x,mean=80*365,sd*365),add=T)
+```
+
+
+#d.
+#####Yes,雖然population不是bell-shaped，但是有超過30(365>30)的random sample 的條件，因此mean值的distribution 依然是normal distribution
+
+#9.74
+##a.
+#####μd
+
+##b.
+#####d_bar，50個學生每一個人brand1與brand2沒爆開的爆米花的相差數量。
+
+##c.
+####Yes,a題會變成μ1-μ2，b題會變成x1_bar-x2_bar
+
+##d.
+#####mean=10, sd=0.7071068
+```{r}
+mean<-10
+sd<-5/sqrt(50)
+sd
+```
+
+##e.
+```{r}
+popcorn<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=popcorn(mu=10,sigma=5,n=50)
+  simu.xbar[j]=x
+}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of unpopped hernels by sampling",xlab="xbar",col = "lavenderblush2",xlim=c(7,13))
+curve(dnorm(x,10,0.7),xlim=c(7,13),add=T)
+
+```
+
+
+##f
+#####這種情況的確出乎意料之外，以上題模型來說，store brand 在常態中會比 name brand少約7~13粒未爆的爆米花，
+####如果有比name brand多50粒的狀況，會位於上圖負數的地方，很明顯屬於outlier。
+
+
+#9.80
+##a. 
+#####因為題目設定服用兩種藥物症狀持續的時間差是沒有差異的，因此mean=0
+
+##b.
+##### 0.5137247
+```{r}
+sd<-sqrt((1.5^2/25)+(2^2/23))
+sd
+```
+
+##c
+```{r}
+curve(dnorm(x,0,sd),xlim=c(-2,2),main="sample distribution of difference by sampling")
+```
+
+
+##d.
+#####No,因為3.6的差異值落在上圖常態分佈以外的地方，是個outlier，所以並不合理。
+
+##e.
+#####No,因為根據d的結果，服用兩種不同藥物所度過的症狀期是有明顯差異的(3.6位於三個標準差外)
+
+
+
+#9.106
+##a
+#####-1.2
+```{r}
+(97-100)/(15/sqrt(36))
+```
+
+##b.
+#####2
+```{r}
+(105-100)/(15/sqrt(36))
+```
+
+##c.
+#####mean=100
+#####sd=2.5
+```{r}
+mu<-100
+sigma<-15
+n<-36
+theo.mean=mu
+theo.sd=sigma/sqrt(n)
+theo.mean
+theo.sd
+```
+
+##d.
+#####橘色線是97，紅色線是105
+```{r}
+
+IQ<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=IQ(mu=100,sigma=15,n=36)
+  simu.xbar[j]=x
+}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of IQ",xlab="xbar",col = "skyblue2",xlim=c(90,110))
+curve(dnorm(x,100,2.5),xlim=c(90,110),add=T)
+abline(v = 97, col = "tan1")
+abline(v = 105, col = "indianred1")
+
+
+```
+
+##e.
+#####橘色線是97，紅色線是105
+
+```{r}
+simu.z<-(simu.xbar-theo.mean)/(theo.sd)
+curve(dnorm(x,mean(simu.z),sd(simu.z)),xlim=c(-4,4))
+z97<-(97-theo.mean)/(theo.sd)
+z105<-(105-theo.mean)/(theo.sd)
+abline(v = z97, col = "tan1")
+abline(v = z105, col = "indianred1")
+```
+
+##f.
+#####e的數值是經過z-score（標準化）的程序轉換而來的，因此標準化後的mean=0,sd=1,資料分布的形狀與parts(a),(b)的相對位置是一樣的
+
+
+#Example 9.4
+```{r}
+candidate<-function(n,p){
+  samp=sample(x=c(0,1),n,replace = T,prob=c(1-p,(p)))
+  phat=sum(samp)/n
+  return(phat)
+  
+}
+simu.phat=c()
+for(j in 1:1000){
+  x=candidate(2400,0.4)
+  simu.phat[j]=x
+}
+
+```
+
+```{r}
+mean9.4<-mean(simu.phat)
+mean9.4
+```
+```{r}
+sd9.4<-sqrt((mean9.4*(1-mean9.4))/2400)
+sd9.4
+```
+```{r}
+theo.mean<-0.4
+theo.mean
+```
+```{r}
+theo.sd<-sqrt((0.4*(1-0.4))/2400)
+theo.sd
+```
+```{r}
+hist(simu.phat,probability = T,breaks=20,main="sample distribution of xbar by sampling",col = "olivedrab4",xlim=c(0.37,0.43))
+curve(dnorm(x, mean = theo.mean, sd = theo.sd), add = T,lwd=2)
+```
+
+#####樣本分布與理論值大致相同
+
+###Z-Score distribution
+```{r}
+z<-(simu.phat-theo.mean)/theo.sd
+hist(z,probability = T,breaks=20,main="Z-Score",col = "olivedrab4")
+```
+
+
+#Example 9.6
+```{r}
+p1<-0.379
+n1<-1017
+p2<-0.287
+n2<-885
+
+DP<-function(n,p){
+  samp=sample(x=c(0,1),n,replace = T,prob=c(1-p,(p)))
+  phat=sum(samp)/n
+  return(phat)
+  
+}
+simu.p1=c()
+for(j in 1:1000){
+  x=DP(n1,p1)
+  simu.p1[j]=x
+}
+
+simu.p2=c()
+for(j in 1:1000){
+  x=DP(n2,p2)
+  simu.p2[j]=x
+}
+
+simu.dif<-simu.p1-simu.p2
+```
+
+```{r}
+mean9.6<-mean(simu.dif)
+mean9.6
+```
+```{r}
+sd9.6<-sd(simu.dif)
+sd9.6
+```
+```{r}
+theo.mean=p1-p2
+theo.mean
+```
+```{r}
+theo.sd=sqrt((p1*(1-p1)/n1)+(p2*(1-p2)/n2))
+theo.sd
+```
+```{r}
+hist(simu.dif,probability = T,breaks=20,main="sample distribution of xbar by sampling",col = "rosybrown2")
+curve(dnorm(x, mean = theo.mean, sd = theo.sd), add = T,lwd=2)
+```
+
+#####樣本分布與理論值大致相同
+
+
+###Z-Score distribution
+```{r}
+z<-(simu.dif-theo.mean)/theo.sd
+hist(z,probability = T,breaks=20,main="Z-Score",col = "rosybrown2")
+```
+
+##Exsample9.8
+```{r}
+weight_loss<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=popcorn(mu=8,sigma=5,n=25)
+  simu.xbar[j]=x
+}
+```
+
+```{r}
+mean9.8<-mean(simu.xbar)
+mean9.8
+```
+
+```{r}
+sd9.8<-sd(simu.xbar)
+sd9.8
+```
+```{r}
+theo.mean<-8
+theo.mean
+```
+```{r}
+theo.sd<-5/sqrt(25)
+theo.sd
+```
+```{r}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of xbar by sampling",xlab="xbar",col = "sandybrown")
+curve(dnorm(x,theo.mean,theo.sd),add=T)
+```
+
+#####樣本分布與理論值大致相同
+
+
+###Z-Score distribution
+```{r}
+z<-(simu.xbar-theo.mean)/theo.sd
+hist(z,probability = T,breaks=20,main="Z-Score",col = "sandybrown")
+```
+
+
+##Exsample9.9
+```{r}
+weight_gain<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar=c()
+for(j in 1:1000){
+  x=popcorn(mu=0,sigma=7,n=60)
+  simu.xbar[j]=x
+}
+
+```
+
+```{r}
+mean9.9<-mean(simu.xbar)
+mean9.9
+```
+
+```{r}
+sd9.9<-sd(simu.xbar)
+sd9.9
+```
+
+```{r}
+theo.mean<-0
+theo.mean
+```
+
+```{r}
+theo.sd<-7/sqrt(60)
+theo.sd
+```
+
+```{r}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of xbar by sampling",xlab="xbar",col = "thistle3",xlim=c(-3,3))
+curve(dnorm(x,theo.mean,theo.sd),add=T)
+```
+
+#####樣本分布與理論值大致相同
+
+
+###Z-Score distribution
+```{r}
+z<-(simu.xbar-theo.mean)/theo.sd
+hist(z,probability = T,breaks=20,main="Z-Score",col = "thistle3")
+```
+
+##Example 9.10
+```{r}
+car_speed<-function(mu,sigma,n){
+  samp=rnorm(n,mean=mu,sd=sigma)
+  xbar=mean(samp)
+  return(xbar)
+  
+}
+simu.xbar1=c()
+for(j in 1:1000){
+  x=popcorn(mu=0,sigma=15,n=87)
+  simu.xbar1[j]=x
+}
+
+simu.xbar2=c()
+for(j in 1:1000){
+  x=popcorn(mu=0,sigma=15,n=102)
+  simu.xbar2[j]=x
+}
+
+simu.xbar<-simu.xbar1-simu.xbar2
+
+```
+
+```{r}
+mean9.10<-mean(simu.xbar)
+mean9.10
+```
+
+```{r}
+sd9.10<-sd(simu.xbar)
+sd9.10
+```
+
+```{r}
+theo.mean<-0
+theo.mean
+```
+
+```{r}
+theo.sd<-sqrt(15^2/87+15^2/102)
+theo.sd
+```
+
+```{r}
+hist(simu.xbar,probability = T,breaks=20,main="sample distribution of xbar by sampling",xlab="xbar",col = "slategray1",xlim=c(-6.6,6.6))
+curve(dnorm(x,theo.mean,theo.sd),add=T)
+```
+
+#####樣本分布與理論值大致相同
+
+
+###Z-Score distribution
+```{r}
+z<-(simu.xbar-theo.mean)/theo.sd
+hist(z,probability = T,breaks=20,main="Z-Score",col = "slategray1")
+```
+
+
+
+
+
+
