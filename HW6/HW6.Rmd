@@ -1,0 +1,264 @@
+---
+title: "HW6"
+author: "Claire"
+date: "2018年11月7日"
+output: html_document
+---
+#10.12
+##a.
+#####約0.4112011~0.5287989
+```{r}
+n<-1100
+phat<-0.47
+se<-0.03
+prop.test(x=517,n,alternative="two.sided",conf.level=0.95)
+
+# By calculation
+z = qnorm((1-0.95)/2, lower.tail = T)
+se = sqrt(phat*(1-phat)/n)
+
+high.c = phat - z*se; high.c
+low.c = phat +z*se; low.c
+```
+
+##b.
+#####利用phat加減z*se的公式，可以算出在95%信心水準下，有約0.4112011~0.5287989的支持度
+
+#10.22
+##a.
+#####phat
+
+##b.
+#####0.02187144
+```{r}
+sqrt((0.3*(1-0.3))/439)
+```
+
+##c.
+#####0.2590188~0.3444511
+```{r}
+prop.test(x=439*0.3,n=439,p=0.3,alternative="two.sided",conf.level=0.95)
+```
+
+##d.
+#####有95%的信心水準覺得真正認為'less strict'的青少年佔了全體的0.2590188~0.3444511
+
+
+#10.28
+##a.
+#####0.5391979~0.6002695
+```{r}
+prop.test(x=1006*0.57,n=1006,p=0.57,alternative="two.sided",conf.level=0.95)
+```
+
+##b.
+#####Yes,因為0.5391979~0.6002695的整個區間都在0.5以上
+
+##c.
+#####0.1574906~0.2049440
+```{r}
+prop.test(x=1006*0.18,n=1006,p=0.18,alternative="two.sided",conf.level=0.95)
+```
+
+
+
+#10.48
+##a.
+#####用"standard error= sqrt(p*(1-p)/n)"的公式，求出0.05的標準差，代表在一定信心水準之下做出的統計有5%的抽樣誤差
+
+##b.
+#####0.4962189~0.5831724
+#####真正母體中認為「verry ewll」的比例在95%的信心水準下落在0.4962189~0.5831724
+```{r}
+high.c<-0.54+0.05
+low.c<-0.54-0.05
+high.c
+low.c
+```
+
+##c.
+#####0.4953233~0.5846767
+```{r}
+e<-sqrt(0.54*(1-0.54)/501)
+high.c = 0.54+1.96*e
+low.c = 0.54-1.96*e
+high.c
+low.c
+```
+
+##d.
+```{r}
+#use reported value
+high.c<-0.05+0.05
+low.c<-0.05-0.05
+high.c
+low.c
+```
+```{r}
+#use precise way
+e<-sqrt(0.05*(1-0.05)/501)
+high.c = 0.05 +1.96*e
+low.c = 0.05-1.96*e
+high.c
+low.c
+```
+
+
+#####用precise formula的區間比較窄
+
+
+##e.
+#####因為(b)和(c)的樣本取的比例相較於(d)更接近0.5，所以比(d)更適合用0.05的margin error去估計
+
+
+#10.54
+##a.
+#####0.04237119~0.07847709
+```{r}
+p1<-24/1379
+n1<-1379
+p2<-86/1105
+n2<-1105
+
+DP<-function(n,p){
+  samp=sample(x=c(0,1),n,replace = T,prob=c(1-p,(p)))
+  phat=sum(samp)/n
+  return(phat)
+  
+}
+simu.p1=c()
+for(j in 1:1000){
+  x=DP(n1,p1)
+  simu.p1[j]=x
+}
+
+simu.p2=c()
+for(j in 1:1000){
+  x=DP(n2,p2)
+  simu.p2[j]=x
+}
+
+simu.dif<-simu.p1-simu.p2
+mean_snor<-mean(simu.dif)
+sd_snor<-sd(simu.dif)
+
+z = qnorm((1-0.95)/2, lower.tail = T)
+
+high.c = mean_snor - z*sd_snor; high.c
+low.c = mean_snor +z*sd_snor; low.c
+```
+
+```{r}
+prop.test(x=c(86,24),n=c(1105,1379),alternative="two.sided",conf.level=0.95)
+```
+
+##b.
+#####可以，因為在95%信心水準下的差異區間為0.04237119~0.07847709，並不包含0(不重疊)，因此打呼和不打呼者有心臟病的機率是有顯著差異的。
+
+
+#10.66
+##a.
+#####是有差異的，因為男生的範圍"0.11-0.17"跟女生的範圍"0.4-0.8"沒有重疊，所以差異可能是明顯的
+
+##b.
+##### 0.04231276~0.11768724
+```{r}
+p1<-0.11+(0.17-0.11)/2
+p2<-0.04+(0.08-0.04)/2
+prop.test(x=c(524*p1,542*p2),n=c(524,542),alternative="two.sided",conf.level=0.95)
+```
+
+##c.
+#####Yes因為男生與女生的差異範圍不包含0(沒有差異)
+
+
+
+#Exsample 10
+```{r}
+#模擬
+Prop_CI_Diff = function(n1, p1, n2,p2,confd) {
+  
+  phat1 = c()
+  for (i in 1:10000) {
+    phat = sum(sample(c(0,1), n1, replace = T, prob = c(1-p1,p1)))/n1
+    phat1[i] = phat
+  }
+  
+  phat2 = c()
+  for (i in 1:10000) {
+    phatt = sum(sample(c(0,1), n2, replace = T, prob = c(1-p2,p2)))/n2
+    phat2[i] = phatt
+  }
+  all.phat=phat1-phat2
+  
+  all.phat = sort(all.phat)#從小排到大
+  
+  low.per = ceiling(((1-confd)/2)*10000)#下界；ceiling:四捨五入
+  low.vlue = all.phat[low.per]
+  high.per = ceiling((1-((1-confd)/2))*10000)#上界
+  high.vlue = all.phat[high.per]
+  
+  results = c(paste((1-confd)/2*100,"%"), paste((1-((1-confd)/2))*100,"%"), low.vlue, high.vlue)
+  
+  mean.p = mean(all.phat)
+  sd.p = sd(all.phat)
+  
+  CI = list(CI = matrix(results, nrow = 2, byrow = T), mean = mean.p, sd = sd.p )
+  
+  return(CI)
+}
+
+P1<-915/1467
+N1<-1467
+P2<-771/1575
+N2<-1575
+
+Prop_CI_Diff(N1,P1,N2,P2,confd = 0.95)
+```
+
+```{r}
+#公式
+p = P1-P2
+
+z = qnorm((1-0.95)/2, lower.tail = T)
+se = sqrt((P1*(1-P1)/N1)+(P2*(1-P2)/N2))
+
+high.c = p - z*se; high.c
+low.c = p +z*se; low.c
+
+```
+
+```{r}
+DP<-function(n,p){
+  samp=sample(x=c(0,1),n,replace = T,prob=c(1-p,(p)))
+  phat=sum(samp)/n
+  return(phat)
+  
+}
+simu.p1=c()
+for(j in 1:1000){
+  x=DP(N1,P1)
+  simu.p1[j]=x
+}
+
+simu.p2=c()
+for(j in 1:1000){
+  x=DP(N2,P2)
+  simu.p2[j]=x
+}
+
+simu.dif<-simu.p1-simu.p2
+
+hist(simu.dif,probability = T,breaks=20,main="sample distribution of xbar by sampling",col = "rosybrown2")
+
+```
+
+
+
+
+
+
+
+
+
+

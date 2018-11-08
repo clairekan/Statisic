@@ -1,0 +1,70 @@
+---
+title: "QUIZ6"
+author: "Claire"
+date: "2018年11月2日"
+output: html_document
+---
+#10.12
+##a.
+#####約0.4112011~0.5287989
+```{r}
+n=1100
+phat=0.47
+se=0.03
+prop.test(x=517,n,alternative="two.sided",conf.level=0.95)
+
+# By calculation
+z = qnorm((1-0.95)/2, lower.tail = T)
+se = sqrt(p*(1-p)/n)
+
+high.c = phat - z*se; high.c
+low.c = phat +z*se; low.c
+```
+
+##b.
+#####利用phat加減z*se的公式，可以算出在95%信心水準下，有約0.4112011~0.5287989的支持度
+
+
+#10.54
+##a.
+#####0.04237119~0.07847709
+```{r}
+p1<-24/1379
+n1<-1379
+p2<-86/1105
+n2<-1105
+
+DP<-function(n,p){
+  samp=sample(x=c(0,1),n,replace = T,prob=c(1-p,(p)))
+  phat=sum(samp)/n
+  return(phat)
+  
+}
+simu.p1=c()
+for(j in 1:1000){
+  x=DP(n1,p1)
+  simu.p1[j]=x
+}
+
+simu.p2=c()
+for(j in 1:1000){
+  x=DP(n2,p2)
+  simu.p2[j]=x
+}
+
+simu.dif<-simu.p1-simu.p2
+mean_snor<-mean(simu.dif)
+sd_snor<-sd(simu.dif)
+
+z = qnorm((1-0.95)/2, lower.tail = T)
+
+high.c = mean_snor - z*sd_snor; high.c
+low.c = mean_snor +z*sd_snor; low.c
+```
+
+```{r}
+prop.test(x=c(86,24),n=c(1105,1379),alternative="two.sided",conf.level=0.95)
+```
+
+##b.
+#####可以，因為在95%信心水準下的差異區間為0.04237119~0.07847709，並不包含0(不重疊)，因此打呼和不打呼者有心臟病的機率是有顯著差異的。
