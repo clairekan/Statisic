@@ -1,0 +1,267 @@
+---
+title: "HW7"
+author: "Claire"
+date: "2018年11月13日"
+output: html_document
+---
+
+#11.18
+##a.
+#####0.2。因為男生sample裡的數量比女生還要少。
+```{r}
+n1<-64
+u1<-27.5
+sd1<-2
+n2<-100
+u2<-24
+sd2<-2
+se2<-sd2/sqrt(100)
+se2
+```
+
+##b.
+##### 0.3201562
+```{r}
+sqrt((sd1^2/n1)+(sd2^2/n2))
+```
+
+
+
+#11.32
+##a. 3.839552~5.160448
+```{r}
+n1<-25
+mu1<-4.5
+sd1<-1.6
+se1<-1.6/sqrt(n1)
+t1<-qt((1-0.95)/2,df=25-1,lower.tail=F)
+t1
+```
+```{r}
+low.c<-mu1-t1*se1;low.c
+high.c<-mu1+t1*se1;high.c
+```
+
+
+
+##b.  7.321622~8.878378
+```{r}
+n2<-23
+mu2<-8.1
+sd2<-1.8
+se2<-sd2/sqrt(n2)
+t2<-qt((1-0.95)/2,df=n2-1,lower.tail=F)
+t2
+```
+```{r}
+low.c<-mu2-t2*se2;low.c
+high.c<-mu2+t2*se2;high.c
+```
+
+##c.
+```{r}
+plot(c(0,3),type='n',xlim=c(3,9),xlab='',ylab='',axes=F,
+     main='Comparsion of the two confidence interval')
+
+lines(c(3.839552,5.160448),c(2,2))
+text(5.6,2,labels='zinc')
+lines(c(3.839552,3.839552),c(1.95,2.05))
+lines(c(4.5,4.5),c(1.95,2.05))
+lines(c(5.160448,5.160448),c(1.95,2.05))
+
+lines(c( 7.321622,8.878378),c(1,1))
+text(6.9,1,labels='placebo')
+lines(c( 7.321622, 7.321622),c(0.95,1.05))
+lines(c(8.1,8.1),c(0.95,1.05))
+lines(c(8.878378,8.878378),c(0.95,1.05))
+
+axis(1)
+```
+
+##d.
+#####這是一個合理的結論，因為兩條線之間沒有交疊，代表雙方的差異是明顯的
+
+##e.
+##### 因為要確定資料是鐘形曲線，(a),(b)才能用t分配算信賴區間
+
+
+
+#11.50
+##a.
+#####0.8171697~2.78283 ，這個區間代表有95%的信心水準真正的理想身高與現實身高差異會落在0.8171697~2.78283之間
+```{r}
+n<-20;mu<-1.8;sd<-2.1
+se<-sd/sqrt(n)
+t<-qt((1-0.95)/2,df=n-1,lower.tail=F)
+low.c<-mu-t*se;low.c
+high.c<-mu+t*se;high.c
+```
+
+##b.
+#####樣本資料呈現鐘形分布，且是隨機抽樣的；或是不是鐘形分布但資料龐大
+
+##c.
+#####不正確，一方面沒有論述到在多少信心水準下，另一方面不能說全部的女生都這樣，而應該說女生中平均來說想要變得比現實還高
+
+##d.
+#####不適合，那樣的方法需要很大的樣本數
+
+
+#11.60
+##a.-1.886161~ 15.21949
+```{r}
+g1<-c(72,84,66,72,62,84,76,60)
+n1<-8;mu1<-sum(g1)/n1;sd1<-sd(g1)
+g2<-c(62,72,60,63,75,64,60,52,64,80,68,64)
+n2<-12;mu2<-sum(g2)/n2;sd2<-sd(g2)
+se<-sqrt((sd1^2/n1)+(sd2^2/n2))
+t<-qt((1-0.95)/2,df=n1-1,lower.tail=F)
+mu<-mu1-mu2
+low.c<-mu-t*se;low.c
+high.c<-mu+t*se;high.c
+t.test(g1, g2, alternative = 'two.sided', var.equal = F, paired = F, conf.level = 0.95)
+```
+
+##b.
+##### -1.538199~14.87153
+```{r}
+sp<-sqrt(((n1-1)*sd1^2+(n2-1)*sd2^2)/(n1+n2-2))
+se<-sp*sqrt((1/n1)+(1/n2))
+t<-qt((1-0.95)/2,df=n1+n2-2,lower.tail=F)
+low.c<-mu-t*se;low.c
+high.c<-mu+t*se;high.c
+
+```
+
+##c.
+#####用a方法比較好，因為用b方法太過於保守，不確定性太高。
+
+
+#11.78
+##a.
+##### 6.410593
+```{r}
+n1<-16;n2<-16
+d1<-113.75;sd1<-22.64
+d2<-99.87;sd2<-12.04
+se<-sqrt((sd1^2/n1)+(sd2^2/n2))
+se
+```
+
+##b.
+#####0.5852443~27.17476
+```{r}
+t<-qt((1-0.95)/2,df=22,lower.tail=F)
+d<-d1-d2
+low.c<-d-t*se;low.c
+high.c<-d+t*se;high.c
+```
+
+##c.
+#####可以，因為兩者的差異在95%信心水準下都是>0的，所以證明有差異。
+
+##d.
+#####資料會呈現鐘型分布，因為大部分的人都是在接近的的時間下完成實驗。
+
+
+
+#11.80
+##a.
+#####是paired data，因為慣用手與不慣用手夾取豆子數量之間存在著相關，是成對的資料。
+
+##b.
+#####因為夾豆子的順序可能會影響後面那隻手夾豆子的表現(例如疲累或是經驗學習)，所以要交錯先後順序減弱不平衡。
+
+##c.
+#####-0.04018838~2.173522
+```{r}
+g<-c(4,4,5,1,-2,0,2,4,-3,0,0,0,-2,2,1)
+d<-mean(g);sd<-sd(g)
+se<-sd/sqrt(15)
+t<-qt((1-0.9)/2,df=14,lower.tail=F)
+low.c<-d-t*se;low.c
+high.c<-d+t*se;high.c
+```
+
+##d.
+#####慣用手夾豆子的能力在90%信心水準下沒有顯著的差異，因為區間包含0。
+
+
+#實習
+```{r}
+Sim_CI<-function(n,mu1,sd1,mu2,sd2,m,conf.level){
+  
+  prob<-(1-conf.level)/2
+  t.value=qt(prob,df=n-1,lower.tail=FALSE)
+  
+  mean.x=c()
+  se.x=c()
+  
+  
+  CI.half=c()
+  CI.Up=c()
+  CI.Lower=c()
+  Check=c()
+  
+  #Mumeanltiple sampling
+  for (i in 1:m){
+    
+    #one sampling 1
+    x1<-rnorm(n,mean=mu1,sd=sd1)
+    x2<-rnorm(n,mean=mu2,sd=sd2)
+    x<-x1-x2
+    mean.x[i]<-mean(x)
+    se.x[i]<-sd(x)/sqrt(n)
+    
+    #calculate one confidence interval
+    CI.half[i]<-t.value*se.x[i]
+    CI.Up[i]<-mean.x[i]+CI.half[i]
+    CI.Lower[i]<-mean.x[i]-CI.half[i]
+    if(CI.Up[i]>mu1-mu2 & CI.Lower[i]<mu1-mu2) Check[i]<-1 else Check[i]<-0
+  }
+  
+  plot(c(CI.Up,CI.Lower),type="n",pch=19,xlim=c(1,m),xlab="Trial",ylab=expression(mu))  #n=甚麼都不畫
+  abline(h=mu,col="blue")
+  
+  #check weather each confidence interval captures the population mean (mu)
+  for (i in 1:m){
+    if (Check[i]==1){
+      points(i, mean.x[i], col="green", pch=10)
+      points(i, CI.Up[i], col="green", pch=20)
+      points(i, CI.Lower[i], col="green", pch=20)
+      lines(c(i,i),c(CI.Lower[i],CI.Up[i]), col="green", pch=19)
+      
+    }else{
+      points(i, mean.x[i], col="red", pch=10)
+      points(i, CI.Up[i], col="red", pch=20)
+      points(i, CI.Lower[i], col="red", pch=20)
+      lines(c(i,i),c(CI.Lower[i],CI.Up[i]), col="red", pch=19)
+    }
+  }
+  
+
+  title(expression(paste("Simulating confidence interval for",mu)))
+  
+  legend("bottomright",cex=0.6,bty = "n",ncol = 2,
+         c(expression(paste(mu,"Captured")),expression(paste(mu,"Not Captured"))),
+         fill = c("green","red"))
+  
+  No.Captured = m-sum(Check)
+  RESULT = list(Trial=m, Sample.Size=n,
+                Population.mean1=mu1,Population.mean2=mu2,Population.sd1=sd1,Population.sd2=sd2,
+                Confidence=conf.level,
+                No.Captured=No.Captured)
+  
+  return(RESULT)
+}
+
+Sim_CI(n=30, m=100, mu1=50, sd1=5, mu2=55,sd2=7,conf.level=0.95)
+```
+
+
+
+
+
+
+
+

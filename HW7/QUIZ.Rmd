@@ -1,0 +1,62 @@
+---
+title: "QUIZ"
+author: "Claire"
+date: "2018年11月9日"
+output: html_document
+---
+
+#32
+##a. 4.035709~5.407912
+```{r}
+x<-rnorm(25, mean = 4.5, sd = 1.6)
+t.test(x,alternative = "two.sided",conf.level = 0.95)
+
+
+```
+
+
+##b. 7.553070~9.157426
+```{r}
+y<-rnorm(23, mean = 8.1, sd = 1.8)
+t.test(y,alternative = "two.sided",conf.level = 0.95)
+```
+
+
+##c.
+```{r}
+plot(c(0,3),type='n',xlim=c(3,9),xlab='',ylab='',axes=F,
+     main='Comparsion of the two confidence interval')
+
+lines(c(4.035709,5.407912),c(2,2))
+text(6.9,2,labels='zinc')
+lines(c(4.035709,4.035709),c(1.95,2.05))
+lines(c(4.5,4.5),c(1.95,2.05))
+lines(c(5.407912,5.407912),c(1.95,2.05))
+
+lines(c(7.553070,9.157426),c(1,1))
+text(6.3,1,labels='placebo')
+lines(c(7.553070,7.553070),c(0.95,1.05))
+lines(c(8.1,8.1),c(0.95,1.05))
+lines(c(9.157426,9.157426),c(0.95,1.05))
+
+axis(1)
+```
+
+##d.
+#####這是一個合理的結論，因為兩條線之間沒有交疊，代表雙方的差異是明顯的
+
+##e.
+##### 因為要確定資料是鐘形曲線，(a),(b)才能用t分配算信賴區間
+
+
+
+
+
+
+
+
+
+
+
+
+
