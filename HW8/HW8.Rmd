@@ -1,0 +1,206 @@
+---
+title: "HW8"
+author: "Claire"
+date: "2018年11月20日"
+output: html_document
+---
+
+#12.14
+##a.
+#####Ha=15%,也就是有15%的人口有特殊基因。
+#####H0!=15%,也就是有不等於15%的人口有特殊基因。
+
+##b.
+#####Ha<30%，也就是紅色糖果佔全部種類糖果小於30%
+#####H0=30%，也就是紅色糖果佔全部種類糖果等於30%
+
+#12.28
+##a.
+#####Ha>0.5，也就是他猜對性別的機率高於一半
+#####H0=0.5，也就是他猜對性別的機率等於一半
+
+##b.
+#####phat=6/10=0.6
+
+##c.
+#####No,雖然0.377>0.05，代表我們不能拒絕H0，但是也不能就此斷定懷疑者就一定是對的，只能說沒有足夠的證據反駁懷疑者。
+
+##d.
+#####沒有足夠證據顯示醫生有預測嬰兒性別的能力，因為0.377>0.05，代表我們不能否認他猜對性別的機率等於一半(也就是沒有預測能力)。
+
+##e.
+#####根據z-statistic test可得知如果想要有足夠的證據推翻懷疑者(拒絕H0)，可以用增加sample size的方式達成。
+
+
+#12.36
+##a.
+#####Type 1。因為在null hypothesis is true的狀況下，有可能被誤判成拒絕，形成Type 1 error。
+
+##b.
+
+####Type 2。因為在alternative hypothesis is true的狀況下，有可能因為證據不足而無法拒絕H0 ，形成Type 2 error。
+ 
+##c.
+#####Type 2。無法拒絕 null hypothesis ，代表有可能其實alternative hypothesis is true，但無法證實。
+
+##d.
+#####Type 1。在 null hypothesis 被拒絕的情況下，有可能其實 null hypothesis 是對的，但是被誤判，形成 Type 1 error。
+
+
+
+#12.54
+###step1
+```{r}
+#令p為全校學生雙腳等長的機率
+#H0:p=0.5
+#HA:p=!0.5
+```
+
+###step2
+```{r}
+
+n<-215
+phat<-103/215
+np0<-n*phat;np0
+npa<-n*(1-phat);npa
+```
+
+
+#####n*p0和n*(1-p)都>10，資料量足夠，可以使用假說設定。
+
+###step3
+```{r}
+
+p0<-0.5
+z<-(phat-p0)/sqrt(0.5^2/n)
+p_value<-2*pnorm(z);p_value
+```
+
+###step4
+#####p_value=0.5393509，大於0.05，呈現不顯著的狀況，無法拒絕H0的虛無假說
+
+###step5
+#####因此沒有足夠證據推翻學校的學生有一半的人腳掌長度一樣的假說。
+
+
+#12.70
+##a.
+###step 1
+#####H0:男生跟女生有一樣的比例(男女相減=0)認為槍枝暴力跟父母養育子女的方式有關。
+#####Ha:男生有比女生更高的比例(男女相減>0)認為槍枝暴力跟父母養育子女的方式有關。
+
+###step 2
+#####樣本數量夠大(np>10&n(1-p)>10)，並且為隨機抽樣，適用z-test。
+
+##step 3
+#####p-value = 1.344e-05
+```{r}
+x_Male<-493*0.51
+x_Female<-538*0.38
+Total_Male<-493
+Total_Female<-538
+prop.test(x = c(x_Male, x_Female), n = c(Total_Male, Total_Female), 
+          alternative = "greater", 
+          conf.level = 0.95, correct = F)
+
+```
+
+###step 4
+#####Yes,因為p-value = 1.344e-05<α=0.05，足夠拒絕H0(也就是男女之間認同此觀點的比例沒有差別)
+
+###step 5
+#####證明男生的確有較女生多的比例認為槍枝暴力跟父母養育子女的方式有關。
+
+##b.
+#####不行，因為這兩筆資料的母群體都是同一群男生，代表資料之間不獨立，不能用以上這種方式來判斷。
+
+
+#12.84
+##a.
+#####z-score=2.5
+```{r}
+p<-0.25
+p0<-0.2
+n<-400
+z<-(p-p0)/sqrt(p0*(1-p0)/n);z
+```
+
+##b
+#####p-value=0.006209665
+```{r}
+p_value<-1-pnorm(z);p_value
+```
+
+##c.
+#####因為p-value=0.006209665<α=0.05，因此足夠拒絕H0(母體比例=0.2)，代表母體比例是高於0.2的。
+
+##d.
+```{r}
+p<-0.25
+p0<-0.2
+n<-100
+z<-(p-p0)/sqrt(p0*(1-p0)/n);z
+```
+
+```{r}
+p_value<-1-pnorm(z);p_value
+```
+
+#####因為p-value=0.1056498>α=0.05，因此不足夠拒絕H0(母體比例=0.2)，代表無法否認母體比例為0.2的可能性。
+
+##e.
+#####因為根據z-statistic test 的公式，樣本數n越大z-score越大，樣本數n越小z-score越小，就會讓p-value增加，而變得不能否認H0。
+
+
+###練習題
+```{r}
+data<-load("UCBAdmissions.Rdata")
+head(A)
+z_half_alpha = qnorm(0.005, lower.tail = F)#apha
+
+x2 = xtabs(Freq ~ Gender+Admit+Dept, data = A)
+#各科系男女錄取的人數和不錄取的人數
+
+#step1 H0:男女錄取比例無差別(相減=0))；Ha:男女錄取比例有差別(相減!=0))
+
+#step2 樣本數量夠多，每項接滿足n*p0和n*(1-p)都>10，可以使用假說檢定。
+
+#step3
+    
+depart<-c('A','B','C','D','E','F')
+
+for (i in 1:6){
+  x_Male = x2[1,1,i]
+  x_Female = x2[2,1,i]
+  
+  Total_Male = sum(x2[1,,i])
+  Total_Female = sum(x2[2,,i])
+  
+  Male_Rate = x_Male / Total_Male
+  Female_Rate = x_Female / Total_Female
+  
+  #common population proportion
+  Total_Rate = (x2[1,1,i]+x2[2,1,i]) / sum(x2[,,i])
+  
+  se2 = sqrt(Total_Rate * (1-Total_Rate) * (1/Total_Male+1/Total_Female))
+  z2_score = ((Male_Rate - Female_Rate) - 0) / se2
+  z2_score
+  
+  
+  #From z-score
+  if (abs(z2_score) >= abs(z_half_alpha)) {
+    CHECK2 = "Reject NULL"
+  } else {
+    CHECK2 = "Can NOT reject NULL"
+  }
+  print(paste('Dept:',depart[i],CHECK2)) 
+}
+
+```
+
+###step 4
+#####除了A系所以外，其他系所皆不能否決 H0:男女錄取比例無差別(相減=0))
+
+###step 5
+#####除了A系所的男女錄取率有差異以外，其他系所皆不能確定是否出現男女招生錄取率不平衡的現象。
+
