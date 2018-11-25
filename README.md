@@ -21,3 +21,12 @@
 
 ## HW6 -
 [hw6](https://clairekan.github.io/Statisic/HW6/HW6.html)
+
+## HW7 -
+[hw7](https://clairekan.github.io/Statisic/HW7/HW7.html)
+
+## HW8 -
+[hw8](https://clairekan.github.io/Statisic/HW8/HW8.html)
+
+## HW9 -
+[hw9](https://clairekan.github.io/Statisic/HW9/HW9.html)
