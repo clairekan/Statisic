@@ -1,0 +1,168 @@
+---
+title: "HW13"
+author: "Claire"
+date: "2019年1月3日"
+output: html_document
+---
+#16.8
+
+##a.
+
+#####H0:每一個年齡族群認為理想的小孩數量沒有差距
+
+#####Ha:每一個年齡族群認為理想的小孩數量存在差距
+
+#####美國18-89歲的伴侶適用以上假說。
+
+##b.
+
+#####F-statistic=7.41
+
+#####p-value=0.000
+
+#####p-value絕對夠小，所以可以拒絕H0虛無假說，也就是否認「每一個年齡族群認為理想的小孩數量沒有差距」，代表每一個年齡族群認為理想的小孩數量存在差距。
+
+##c.
+
+#####從資料看來，18-29歲的伴侶理想中的小孩數量跟60-89歲的理想數目相近，(雖然60-89歲的理想數目又更多一些)兩者大概落在2.5-2.8之間，然而30-44和45-59歲的伴侶理想中的孩子數量明顯比前面兩個年齡層還要小，大約落在2.25-2.48個之間。
+
+##d.
+
+#####最大的樣本標準差=0.99，小於最小標準差0.82的兩倍，因此適用F-test
+
+#16.24
+
+##a.
+
+```{r}
+drug1<-c(7,2,5,6)
+drug2<-c(8,12,0,4)
+drug3<-c(16,9,5,10)
+Drug<-data.frame(drug1,drug2,drug3);Drug
+```
+```{r}
+x_bar<-sum(Drug)/12;x_bar
+x1_bar<-sum(Drug$drug1)/4;x1_bar
+x2_bar<-sum(Drug$drug2)/4;x2_bar
+x3_bar<-sum(Drug$drug3)/4;x3_bar
+```
+
+
+##b.
+```{r}
+SSGroup<-4*(x1_bar-x_bar)^2+4*(x2_bar-x_bar)^2+4*(x3_bar-x_bar)^2;SSGroup
+```
+
+##c.
+```{r}
+SSTotal<-(7-x_bar)^2+(2-x_bar)^2+(5-x_bar)^2+(6-x_bar)^2+(8-x_bar)^2+(12-x_bar)^2+(0-x_bar)^2+(4-x_bar)^2+(16-x_bar)^2+(9-x_bar)^2+(5-x_bar)^2+(10-x_bar)^2
+SSTotal
+```
+
+##d.
+```{r}
+SSerror<-212-56;SSerror
+```
+
+##e.
+```{r}
+MSGroup<-SSGroup/(3-1)#k-1
+MSE<-SSerror/(12-3)#N-k
+F_value<-MSGroup/MSE;F_value
+```
+
+#####F-statistic=1.615385,df=2 and 9。
+
+#16.36
+
+##a.
+
+#####座位坐在越前面的男生睡眠平均時數明顯越少
+
+##b.
+
+#####座位坐在後面的女生相較於坐前面的女生的平均睡眠時數有微幅下降的趨勢
+
+##c.
+
+#####可能有交互作用，因為如果男女獨立的話線會呈現平行的狀態，但當女生的睡眠時數減少，女生的做越會越往後面，但男生睡眠時數少的時候卻會往前座。
+
+#16.52
+
+```{r}
+data<-read.csv('wineratings.csv')
+head(data)
+```
+```{r}
+boxplot(Quality~Region,data = data,main="Winer Rating",cex.main=1.6,
+col=c("yellowgreen","khaki1","darksalmon"))
+```
+
+#####整體看來，第三區的Quality分數最高，第一區其次，最低的是第二區。並且第三區的分數分布範圍(組內差距)明顯比其他兩組小。
+
+##b.
+```{r}
+reg.mean<-tapply(data$Quality,data$Region,mean)
+reg.sd<-tapply(data$Quality,data$Region,sd)
+reg.n<-tapply(data$Quality,data$Region,length)
+winerate<-data.frame(n=reg.n,mean=reg.mean,sd=reg.sd)
+winerate
+```
+
+##c.
+
+###**step1**
+
+#####H0:三個區域的Quality沒有差別(各組平均值相等)
+
+#####Ha:三個區域的Quality存在差別(各組平均值不相等)
+
+###**step2**
+```{r}
+#install.packages("ggpubr")
+library(ggpubr)
+
+# visualize confidence interval for each group
+ggline(data, x = "Region", y = "Quality", add = c("mean_ci"), 
+       color = "navy", main = "Confidence interval among groups",
+       ggtheme = theme_gray())
+
+# visualize std for each group
+ggline(data, x = "Region", y = "Quality", add = c("mean_sd"), 
+       color = "firebrick3", main = "Std among groups",
+       ggtheme = theme_gray())
+```
+
+#####呈現常態分配、無離群值
+
+#####最大的標準差1.515017	小於最小的標準差1.111783的2倍
+
+#####符合F test 使用條件
+
+###**step3**
+```{r}
+region<-c(data$Region)
+data$Region<-factor(region)
+oneway = aov(Quality ~ Region, data = data)
+summary(oneway)
+```
+
+#####F-statistics=27.52
+
+#####p-value=6.59e-08 
+
+###**step4**
+
+#####設定α=0.05，p-value<α，足夠拒絕H0
+
+###**step5**
+
+####因為證據顯示差異程度足夠顯著而能拒絕「三個區域的Quality沒有差別(各組平均值相等)」的假設，因此我們能推斷三個區域的Quality存在明顯差異。
+
+
+
+
+
+
+
+

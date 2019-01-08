@@ -1,0 +1,432 @@
+---
+title: "HW11"
+author: "Claire"
+date: "2018年12月17日"
+output: html_document
+---
+
+#14.16
+##a.
+#####98.3102
+```{r}
+98.6-0.0138*21
+```
+
+
+##b.
+#####-0.0102
+```{r}
+98.3-98.3102
+```
+
+#####0.0898
+```{r}
+98.4-98.3102
+```
+
+
+##c.
+#####[99.6822-96.9382]
+```{r}
+98.3102+1.96*0.7
+98.3102-1.96*0.7
+```
+
+
+##d.
+#####不會，因為98.6包含在[99.6822-96.9382]的區間中，代表是在95%信心水準下能預期的範圍。
+
+
+#14,28
+##a.
+#####b1，因為它是用100個參考樣本算出來的回歸線斜率。
+
+
+##b.
+#####區間為[-0.02213476- -0.005465237]，代表在95%信心水準下回歸線的斜率會落在[-0.02213476- -0.005465237]之間。
+```{r}
+t<-qt(0.025,df=98,lower.tail=F)#求t
+low<--0.0138-t*0.0042;low
+high<--0.0138+t*0.0042;high
+```
+
+
+##c.
+#####[-0.2213476--0.05465237]
+```{r}
+low_p<--0.02213476*10;low_p
+low_h<--0.005465237*10;low_h
+```
+
+
+#14.36
+##1.
+#####跟報表上的77.62相同
+```{r}
+pre_er_time<-34.98+10.66*4;pre_er_time
+```
+
+
+##2.
+#####76.67-78.571，代表代表在間歇泉持續噴發4分鐘的狀態下，有95%信心水準距離下一次噴發的時間平均值會落在64.307~90.934分鐘之間
+
+##3.
+#####64.307-90.934代表在間歇泉持續噴發4分鐘的狀態下，有95%信心水準距離下一次噴發的時間會落在76.67~78.571分鐘之間
+
+##4.
+#####我會更想知道他的PI值，因為我不想錯過任何可能噴發的時間，所以光是知道平均值有點不夠，要保守一點抓時間的話要知道它可能噴發的時間範圍，也就是範圍比較大的PI才比較保險。
+
+
+
+#14.54
+##a
+#####y=30+0.576*x
+
+
+##b.
+##### 7.732438約等於表格中的T=7.73
+```{r}
+t<-0.57568/0.07445;t
+```
+
+
+##c.
+###step 1
+<br>
+
+##### H0=回歸線斜率是0
+<br>
+
+##### Ha=回歸線斜率不是0
+<br>
+
+###step 2
+
+<br/>
+#####b1=0.576，t= 7.73
+<br/>
+
+###step 3
+
+<br>
+
+#####根據表格上的內容，計算出來的p=0
+
+<br>
+
+###step 4
+
+<br>
+
+#####p=0，必定是差異顯著的，代表可以推翻H0的假設
+<br>
+
+###step 5
+
+<br>
+
+#####證據顯示回歸線斜率跟0是差異顯著的，可以認定回歸線斜率不是0
+
+
+##d.
+#####[0.4282564-0.7237436]，代表在95%信心水準下斜率會落在#[0.4282564-0.7237436]之間，也就是爸爸每多長一公分，在95%信心水準下高出0.4282564-0.7237436公分。
+```{r}
+t<-qt(0.025,df=98,lower.tail=F)#求t
+low<-0.576-t*0.07445;low
+high<-0.576+t*0.07445;high
+```
+
+
+
+#14.56
+##a.
+#####計算出的結果為67.44，約等於表格上的67.4。
+```{r}
+30+0.576*65
+```
+
+<br/>
+
+##b.
+
+<br/>
+
+#####[64.946 -75.612]
+
+<br/>
+
+#####在大學生中，爸爸身高是70inches的學生有95%身高會落在 64.946 -75.612 之間。
+
+<br/>
+
+#####在隨機抽樣之下，有95%機率當一個學生的爸爸身高是70inches，這個學生的身高落在在 64.946 -75.612 之間。
+
+<br/>
+
+##c.
+
+<br/>
+
+##### [71.596,73.566]，代表在95%信心水準下，爸爸身高是74 inches的學生身高期望直(平均)會落在71.596-73.566之間
+
+<br/>
+
+##d.
+####因為PI是預測y的範圍，CI是預測y的平均值範圍。前者可能的範圍比較寬闊，因為沒有限制要平均值。從算式來看，在根號中PI也比CI多了s^2。
+
+<br/>
+
+##e.
+
+#####它不符符合第二條要求的「沒有離群值」，在爸爸身高是55、65的地方各有一個殘差是4跟-11，屬於離群值。我們可以將這兩個離群值移除來討論，並註明討論的範圍。之後再針對離群值作個別研究和解釋。
+
+<br/>
+
+#R practice
+
+<br/>
+```{r}
+cars <- read.csv("D:/OneDrive/文件/統計學/Vehicles.csv", stringsAsFactors=F)
+head(cars)
+```
+
+
+###估計簡單回歸式
+```{r}
+cars<-cars[,c("Vehicle","GDP")]
+cars<-na.omit(cars)
+
+cars_Vehicle<-cars$Vehicle
+cars_GDP<-cars$GDP
+
+#simple linear regression
+RESULTS=lm(cars_Vehicle~cars_GDP, data=cars)
+summary(RESULTS)
+```
+```{r}
+#correlation coefficient
+cor.test(cars_Vehicle,cars_GDP)
+
+```
+
+```{r}
+#ANOVA
+anova(RESULTS)
+```
+<br/>
+
+#####回歸式:Vehicle=(1.606e+06)+(3.055e+02)*GDP
+
+
+<br/>
+
+###假說檢定
+
+<br/>
+
+####step 1
+
+<br/>
+
+#####siginificant level:α=0.05
+<br/>
+
+#####H0:b1=0
+<br/>
+
+#####H0:b1=!0
+
+
+###step 2
+<br/>
+
+#####b1=3.055e+02
+<br/>
+
+#####t<-29.89 
+
+
+###step 3
+<br/>
+
+#####p-value=2e-16
+
+
+###step 4
+<br/>
+
+#####p-value<α=0.05
+
+
+###step 5
+
+#####結論足夠拒絕H0，證明b1不等於0
+
+
+
+###估計b1的信賴區間
+```{r}
+#手動計算
+x.mean=mean(cars$GDP)
+y.mean=mean(cars$Vehicle)
+
+cars$xx=cars$GDP- x.mean
+cars$yy=cars$Vehicle - y.mean
+cars$xxyy=cars$xx*cars$yy
+cars$xx2= cars$xx^2
+
+##b1
+b1 = sum(cars$xxyy)/sum(cars$xx2);b1
+
+##SSE
+RESULTS=lm(cars_Vehicle~cars_GDP, data=cars)
+
+yhat=RESULTS$fitted.values
+SSE=sum((cars$Vehicle-yhat)^2);SSE
+
+##standard error of residual
+s=sqrt(SSE/(nrow(cars)-2));s
+
+t<-qt(0.025,df=25,lower.tail = F)
+se_b1<-s/sqrt(sum(cars$xx2));se_b1
+
+low_b1<-b1-t*se_b1;low_b1
+high_b1<-b1+t*se_b1;high_b1
+```
+<br/>
+
+#####b1的信賴區間=[284.4506,326.5564]
+
+###計算CI
+```{r}
+CI<-predict(RESULTS,data.frame(cars_GDP=c(9000,13000,17000)),interval="confidence",level=0.95)
+CI
+```
+<br/>
+
+#####當GDP是9000時，車子的數量的期望值有95%會落在[4263081,4447003]
+
+#####當GDP是13000時，車子的數量的期望值有95%會落在[5501243,5652869]
+
+#####當GDP是17000時，車子的數量的期望值有95%會落在[6667609,6930530]
+
+
+###計算PI
+```{r}
+PI=predict(RESULTS,data.frame(cars_GDP=c(9000,13000,17000)),interval="prediction",level=0.95)
+PI
+```
+<br/>
+
+#####當GDP是9000時，車子的數量有95%會落在[3980710,4729374]
+
+#####當GDP是13000時，車子的數量有95%會落在[5206360,5947752]
+
+#####當GDP是17000時，車子的數量有95%會落在[6413130,7185010]
+
+
+###畫圖
+```{r}
+#plotting
+fit=PI[,1]
+PI.low=PI[,2]
+PI.high=PI[,3]
+
+CI.low=CI[,2]
+CI.high=CI[,3]
+
+xx.test=c(9000,13000,17000)
+
+par(mfrow=c(1,2))#把畫布分開(列，欄)
+
+
+#plot PI
+plot(cars_Vehicle~cars_GDP,data=cars,pch=20,col="gray50",main="Prediction interval",xlab="GDP",ylab="Vehicle",xlim=c(8000,18000),ylim=c(4e+06,7e+06),cex.main=2,cex.lab=1.2)
+
+abline(RESULTS,col="navy")
+for(i in 1:length(xx.test)){
+  lines(c(xx.test[i],xx.test[i]),c(PI.low[i],PI.high[i]),col="red",lwd=3)
+  points(xx.test[i],PI.low[i],col="red",pch=15)
+  points(xx.test[i],PI.high[i],col="red",pch=15)
+  points(xx.test[i],fit[i],col="red",pch=8)
+}
+
+#plot CI
+plot(cars_Vehicle~cars_GDP,data=cars,pch=20,col="gray50",main="Confidence interval",xlab="GDP",ylab="Vehicle",xlim=c(8000,18000),ylim=c(4e+06,7e+06),cex.main=2,cex.lab=1.2)
+
+abline(RESULTS,col="navy")
+for(i in 1:length(xx.test)){
+  lines(c(xx.test[i],xx.test[i]),c(CI.low[i],CI.high[i]),col="red",lwd=3)
+  points(xx.test[i],CI.low[i],col="green",pch=15)
+  points(xx.test[i],CI.high[i],col="green",pch=15)
+  points(xx.test[i],fit[i],col="green",pch=8)
+}
+
+```
+<br/>
+
+#####可以從上圖發現PI的範圍比CI還要大，這是因為CI估計的是車子數量的平均值(期望值)，而PI估計的是可能的車子數量範圍的緣故
+
+
+###Checking condition
+```{r}
+#draw the scatter plot
+##y vs x
+plot(cars_Vehicle~cars_GDP,pch=16,cex=1,col="navy",
+     main="Vehicle vs GDP",xlab="GDP",ylab="Vehicle",cex.main=2,cex.lab=1.2)
+
+
+#residuals vs x
+res=RESULTS$res
+plot(res~cars_GDP,pch=16,cex=1,col="gold3",
+     main="residual vs GDP",xlab="GDP",ylab="residuals",cex.main=2,cex.lab=1.2)
+
+abline(h=0,col="red")
+```
+
+<br/>
+
+##### 對於情境要求的第一點，我們可以從y跟x的散佈圖看出y跟x呈現線性關係，符合要求
+<br/>
+
+##### 對於第二點不能有離群值的限制，我們可以從從y跟x的散佈圖跟殘差散佈圖得知沒有太明顯的離群值，符合該論述。
+<br/>
+
+##### 對於第三點，可以從殘差散佈圖得知在每個x的y的殘差看起來是沒有可循的規律，而且接近0，代表y的標準差不會隨著x改變
+
+
+```{r}
+#histogram of residuals
+par(mfrow=c(1,2))
+
+hist(res,breaks=20,border="white",col="olivedrab3",
+     main="histogram of residual", xlab="residuals",
+     cex.main=2,cex.lab=1.2)
+```
+<br/>
+
+#####殘差近似於常態分佈，符合第四點要求
+
+```{r}
+#qqplot
+qqnorm(res,cex.main=2,cex.lab=1.2)
+qqline(res,col="red")
+```
+
+#####假設樣本之間互相獨立
+<br/>
+
+#####不需要做處理，因為都符合上述5個條件。
+
+
+
+
+
+
+
+
+
+
+
+
+

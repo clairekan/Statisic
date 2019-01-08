@@ -1,0 +1,463 @@
+---
+title: "HW12"
+author: "Claire"
+date: "2018年12月27日"
+output: html_document
+---
+
+#4.12
+##a.
+#####row percentage 解釋了在不同性別之下，覺得自己應該要增重、減重或維持不變的人數比例。
+
+##b.
+```{r}
+weight<-as.table(rbind(c(87/129,39/129,3/129,1),c(64/83,3/83,16/83,1),c(151/212,42/212,19/212,1)))
+dimnames(weight)<-list(sex=c("F","M","Total"),perception_weight=c("about right","overweight","underweight","Total"))
+weight
+```
+
+##c.
+```{r}
+weight<-as.table(rbind(c(87/129,39/129,3/129),c(64/83,3/83,16/83)))
+dimnames(weight)<-list(sex=c("F","M"),perception_weight=c("about right","overweight","underweight"))
+weight
+barplot(weight[1:2,1:3],main="perception of weight",
+  legend = rownames(weight),beside=TRUE)
+```
+
+##d.
+
+##### 覺得自己體重適中的男生略為比女生的比例要高，而認為自己過重的女生比例遠遠超出男生，認為自己過輕的則是相反，較多的男生比例認為自己過輕。
+
+##e.
+
+##### 跟sample有相同文化背景的大學生。
+
+
+#4.26
+
+##a.
+
+#####身高矮被霸凌的risk:42/92
+
+#####身高不矮被霸凌的risk:30/117
+
+
+##b.
+```{r}
+relative<-(42/92)/(30/117);relative
+```
+
+#####relative risk=1.780435
+
+#####代表比較矮的人有可能真的比較容易被霸凌，矮的人被霸凌的風險是一般人的1.780435倍
+
+
+##c.
+```{r}
+(relative-1)*100
+```
+
+#####increasing risk=78.04348%
+
+#####代表如果一個人成為矮子的話，被霸凌的風險會升高78.04348%
+
+##d.
+```{r}
+short_odd<-42/(92-42);short_odd
+nshort_odd<-30/(117-30);nshort_odd
+ratio_odd<-short_odd/nshort_odd;ratio_odd
+```
+
+#####ratio odd=2.436
+
+#####矮子被霸凌的「勝算」比不是矮子被霸凌的「勝算」還高出了2.436
+
+
+#4.36
+
+##a.
+```{r}
+#用傳統方法存活的當分母，用新方法的的存活當分子
+sta<-5/100
+new<-100/1000
+relevent<-new/sta;relevent
+```
+
+#####新的方法在A醫院比較成功，因為相對風險大於1。
+
+
+##b.
+```{r}
+#用傳統方法存活的當分母，用新方法的的存活當分子
+sta_B<-500/1000
+new_B<-95/100
+relevent_B<-new_B/sta_B;relevent_B
+```
+
+#####新的方法在B醫院比較成功，因為相對風險大於1。
+
+##c.
+
+```{r}
+treatment<-as.table(rbind(c(505/1100,595/1100),c(195/1100,905/1100)))
+dimnames(treatment)<-list(sex=c("standard","new"),perception_weight=c("survive","die"))
+treatment
+```
+
+#####Standard
+
+
+##d.
+
+#####因為在兩家醫院中使用新方法跟舊方法的人數不同，所以不同數量的分母在個別計算時顯示的結果跟合在一起計算的結果會不一樣。會出現類似加權的效果。
+
+
+#15.18
+
+##a.
+
+###**step1**
+#####H0:都不抽菸、其中一個抽菸跟都抽菸的離婚率一樣
+
+#####Ha:都不抽菸、其中一個抽菸跟都抽菸的離婚率有差異
+
+
+##b.
+
+###**step2**
+
+```{r}
+smag<-as.table(rbind(c(41,931,972),c(41,290,331),c(32,163,195),c(114,1384,1498)))
+dimnames(smag)<-list(sex=c("neither","one","both","total"),marriage=c("seperate","no seperate","total"))
+smag
+```
+```{r}
+exp<-as.table(rbind(c(972*114/1498,972*1384/1498),c(331*114/1498,331*1384/1498),c(195*114/1498,195*1384/1498)))
+dimnames(exp)<-list(sex=c("neither","one","both"),marriage=c("seperate","no seperate"))
+exp
+```
+
+#####1.All expected counts should be greater than 1.
+
+#####2.At least 80% of the cells should have an expected count greater than 5.
+
+#####符合假設
+
+```{r}
+smag<-as.table(rbind(c(41,931),c(41,290),c(32,163)))
+dimnames(smag)<-list(sex=c("neither","one","both"),marriage=c("seperate","no seperate"))
+smag
+result<-chisq.test(smag)
+result
+```
+####chi-square= 48.125
+
+#####p-value=3.546e-11
+
+###**step4**
+
+#####p-value=3.546e-11<0.5，足夠拒絕H0
+
+###**step5**
+
+#####有可能都不抽菸、其中一個抽菸跟都抽菸的離婚率有差異
+
+
+#15.26
+
+##a.
+```{r}
+seabelt<-as.table(rbind(c(964,97),c(924,254)))
+dimnames(seabelt)<-list(sex=c("F","M"),frerq=c("usually","rarely"))
+seabelt
+```
+```{r}
+chisq.test(seabelt)
+```
+
+#####卡方值 = 64.2
+
+##b.
+
+#####df=(2-1)(2-1)=1
+
+##c.
+
+#####p-value = 1.124e-15
+
+##d.
+
+#####設定α=0.05，p-value = 1.124e-15<α=0.05，所以在係安全帶的頻率上，男女是具有顯著差異的，女生系安全帶的頻率有較男生高的趨勢。
+
+#15.40
+
+###**step1**
+
+#####將買銀色的比例設為p1，綠色設為p2,藍色設為p3
+
+#####H0:選擇三種顏色的比例沒有差異，也就是p1=p2=p3=1/3
+
+#####Ha:選擇三種顏色的比例人數有差異
+
+###**step2**
+
+
+```{r}
+#expected account
+color_exp<-as.table(rbind(c(111/3,111/3,111/3)))
+dimnames(color_exp)<-list(number=c("people"),color=c("silver","green","blue"))
+color_exp
+```
+#####1.All expected counts should be greater than 1.
+
+#####2.At least 80% of the cells should have an expected count greater than 5.
+
+###**step3**
+```{r}
+#GOF
+observe<-c(59,27,25)
+result<-chisq.test(observe,p=c(37/111,37/111,37/111))
+result
+```
+
+#####p-value = 5.339e-05，df=3-1=2
+
+###**step4**
+
+#####設定α=0.05，大於p-value = 5.339e-05，代表可以拒絕H0
+
+###**step5**
+
+#####可能選擇三種顏色的比例人數是有差異的
+
+#R 練習題
+
+##1.
+
+###**step1**
+
+#####H0心臟病的存活率男女比例沒有差異
+
+#####Ha心臟病的存活率男女比例有差異
+
+
+```{r}
+MyChiSq <- function(table){
+total.0 = sum(table[,1]); total.0
+total.1 = sum(table[,2]); total.1
+total.F = sum(table[1,]); total.F
+total.M = sum(table[2,]); total.M
+
+total = sum(table)
+
+# generate an expected table
+ExpTable = table
+ExpTable[1,1] = total.0*total.F / total
+ExpTable[1,2] = total.1*total.F / total
+ExpTable[2,1] = total.0*total.M / total
+ExpTable[2,2] = total.1*total.M / total
+
+
+chi=0
+for (i in nrow(table)){
+  for (j in ncol(table)){
+    chi= chi+(table[i,j]-ExpTable[i,j])^2/ExpTable[i,j]
+  }
+}
+
+df = (2-1)*(2-1)
+p_value = pchisq(chi, df = df, lower.tail = F)
+
+return(paste("chisq:",chi, "df:",df,"p.value:",p_value))
+
+}
+
+
+setwd("D:/OneDrive/文件/統計學")
+
+data = "heartatk.csv"
+Heart_Table = read.table(data, header=TRUE, sep=",")
+MyTable = xtabs(~ SEX + DIED, data = Heart_Table) 
+MyChiSq(MyTable)
+```
+
+
+##2.
+###**step1**
+
+#####H0:一周內的降雨日數符合二項分配
+
+#####Ha:一周內的降雨日數不符合二項分配
+
+###**step2**
+```{r}
+x = c(0,1,2,3,4,5,6,7)
+```
+```{r}
+#observed values
+obs = c(5,13,26,19,20,7,0,0)
+n = 90*7
+pp =sum(x*obs)/n
+
+
+#expected values
+exp = c()
+for (i in 1:length(obs)) {
+  exp[i] = dbinom(x[i],size=7,pp) * 90
+}#(一周間下雨的期望天數)*90周
+
+tbl = data.frame(x, obs, exp);tbl
+```
+
+#####發現並沒有所有的row都符合期望值>1，所以做一些調整
+```{r}
+#combining 6,7,8 rows
+tbl.678 = tbl[6,] + tbl[7,] + tbl[8,] #add up 6,7,8 rows
+tbl = tbl[-c(6,7,8),] #remove 6,7,8 rows
+tbl = rbind(tbl, tbl.678);tbl #add the combined row
+```
+#####這樣就有符合所有的row都符合期望值>1而且80%以上都>5的條件
+
+###**step3**
+
+```{r}
+#calculate the chi-square statistic
+chi=0
+for (i in 1:6){
+ 
+    chi= chi+(tbl[i,2]-tbl[i,3])^2/tbl[i,3]
+  
+}
+paste("chi.square:",chi)
+
+df = nrow(tbl)-1-1 #k-1-r
+p_value = pchisq(chi, df = df, lower.tail = F)
+paste("p-value:",p_value)
+```
+#####設閾值為0.05，小於p-value
+
+
+###**step5**
+
+#####無法拒絕一周內的降雨日數符合二項分配，也就是當我們將一周下6天跟下7天(從未發生過)的資料做過處理後，一周內的降雨日數可能符合二項分配
+
+
+
+##3.
+
+###**step1**
+
+#####H0:每月平均PM2.5的濃度值呈現常態分佈
+#####Ha:每月平均PM2.5的濃度值不呈現常態分佈
+
+
+
+###**step2**
+```{r}
+pm2.5 = c(18.8, 14.6, 14.0, 15.8, 12.4, 13.2, 16.1, 13.8, 16.2, 
+          16.1, 17.8, 18.7, 15.8, 13.3, 13.6, 16.4, 13.8, 16.6, 
+          15.3, 19.0, 18.4, 15.0, 18.8, 18.1, 17.3, 16.3, 17.5, 
+          18.1, 14.2, 18.0, 13.0, 13.3, 12.4, 16.6, 14.1, 20.6, 
+          16.8, 13.3, 18.2, 16.9)
+```
+
+```{r}
+#defining thresholds to categorize continuous data
+mean = mean(pm2.5)
+sd = sd(pm2.5)
+
+n = length(pm2.5)
+
+thres = c(mean-3*sd, mean-2*sd, mean-sd, mean, mean+sd, mean+2*sd, mean+3*sd)
+
+
+#observed values (continuous --> discrete)
+obs = rep(0, length = 8)
+
+for (i in 1:length(pm2.5)) {
+  if (pm2.5[i]<thres[1]) {
+    obs[1]= obs[1]+1
+  } else if (thres[1]<=pm2.5[i]&pm2.5[i]<thres[2]) {
+    obs[2]= obs[2]+1
+  } else if (thres[2]<=pm2.5[i]&pm2.5[i]<thres[3]) {
+    obs[3]= obs[3]+1
+  } else if (thres[3]<=pm2.5[i]&pm2.5[i]<thres[4]) {
+    obs[4]= obs[4]+1
+  } else if (thres[4]<=pm2.5[i]&pm2.5[i]<thres[5]) {
+    obs[5]= obs[5]+1
+  } else if (thres[5]<=pm2.5[i]&pm2.5[i]<thres[6]) {
+    obs[6]= obs[6]+1
+  } else if (thres[6]<=pm2.5[i]&pm2.5[i]<thres[7]) {
+    obs[7]= obs[7]+1
+  } else {
+    obs[8]= obs[8]+1
+  }
+}
+
+
+#expected values
+cumu.p = c(pnorm(thres[1],mean=mean,sd=sd), 
+           pnorm(thres[2],mean=mean,sd=sd) - pnorm(thres[1],mean=mean,sd=sd), 
+           pnorm(thres[3],mean=mean,sd=sd) - pnorm(thres[2],mean=mean,sd=sd), 
+           pnorm(thres[4],mean=mean,sd=sd) - pnorm(thres[3],mean=mean,sd=sd), 
+           pnorm(thres[5],mean=mean,sd=sd) - pnorm(thres[4],mean=mean,sd=sd), 
+           pnorm(thres[6],mean=mean,sd=sd) - pnorm(thres[5],mean=mean,sd=sd),
+           pnorm(thres[7],mean=mean,sd=sd) - pnorm(thres[6],mean=mean,sd=sd),
+           1-pnorm(thres[7],mean=mean,sd=sd)
+           )
+
+exp = cumu.p * n
+
+
+cate = c("< m-3d", "m-3d ~ m-2d", "m-2d ~ m-d", "m-d ~ m", "m ~ m+d", "m+d ~ m+2d", "m+2d ~ m+3d", "> m+3d")
+
+tbl = data.frame(obs, exp)
+rownames(tbl) = cate;tbl
+```
+
+#####check conditions
+
+#####發現並沒有所有的row都符合期望值>1，所以做一些調整
+
+```{r}
+tbl.123= tbl[1,] + tbl[2,] + tbl[3,] #add up 6,7,8 rows
+tbl = tbl[-c(1,2,3),] #remove 6,7,8 rows
+tbl = rbind(tbl, tbl.123) #add the combined row
+
+tbl.345 = tbl[3,] + tbl[4,] + tbl[5,] #add up 6,7,8 rows
+tbl = tbl[-c(3,4,5),] #remove 6,7,8 rows
+tbl = rbind(tbl, tbl.345) #add the combined row
+```
+
+#####這樣就有符合所有的row都符合期望值>1而且80%以上都>5的條件
+
+
+###**step3**
+
+```{r}
+chi=0
+for (i in 1:4){
+  
+  chi= chi+(tbl[i,1]-tbl[i,2])^2/tbl[i,2]
+  
+}
+paste("chi.square:",chi)
+
+df = nrow(tbl)-1-2  # k-1-r
+p_value = pchisq(chi, df = df, lower.tail = F)
+paste("p-value:",p_value)
+```
+
+
+###**step4**
+
+#####alpha = 0.05>p-value=0.031
+
+#####足夠拒絕H0
+
+###**step5**
+
+#####有顯著的證據可以推翻平均值呈現常態分佈的假設，代表很可能PM2.5的分布不是常態分配
+
+

@@ -1,0 +1,24 @@
+---
+title: "QUIZ"
+author: "Claire"
+date: "2018年12月7日"
+output: html_document
+---
+
+
+#3.48
+##a.
+####因為SSTO是用y算出來的，所以不受解釋變項x的影響。
+
+##b.
+####Mid-parents height，因為父母雙方的身高最有可能解釋學生的身高變異狀況，它的SSE是三項解釋變項中最小的。
+
+##c.
+```{r}
+SSR=88
+SSE=196 
+r.square=SSR/(SSR+SSE);r.square
+```
+
+
+####r.square= 0.3098592，顯示父親的身高與學生的身高呈現較弱的關係，解釋效果並不好。

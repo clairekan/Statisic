@@ -1,0 +1,44 @@
+---
+title: "QUIZ"
+author: "Claire"
+date: "2018年12月21日"
+output: html_document
+---
+
+#4.26
+##a.
+
+#####身高矮被霸凌的risk:42/209
+
+#####身高不矮被霸凌的risk:30/209
+
+
+##b.
+```{r}
+relative<-(42/209)/(30/209);relative
+```
+
+#####relative risk=1.4
+
+#####代表比較矮的人有可能真的比較容易被霸凌，矮的人被霸凌的風險是一般人的1.4倍
+
+
+##c.
+```{r}
+(relative-1)*100
+```
+
+#####increasing risk=40%
+
+#####代表如果一個人成為矮子的話，被霸凌的風險會升高40%
+
+##d.
+```{r}
+short_odd<-42/(209-42);short_odd
+nshort_odd<-30/(209-32);nshort_odd
+ratio_odd<-short_odd/nshort_odd;ratio_odd
+```
+
+#####ratio odd=1.483832
+
+#####矮子被霸凌的「勝算」比不是矮子被霸凌的「勝算」還高出了1.483832
