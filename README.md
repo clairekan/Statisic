@@ -30,3 +30,13 @@
 
 ## HW9 -
 [hw9](https://clairekan.github.io/Statisic/HW9/HW9.html)
+
+## HW11 -
+[hw11](https://clairekan.github.io/Statisic/HW11/HW11.html)
+
+## HW12 -
+[hw12](https://clairekan.github.io/Statisic/HW12/HW12.html)
+
+## HW13 -
+[hw13](https://clairekan.github.io/Statisic/HW13/HW13.html)
+
